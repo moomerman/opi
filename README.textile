@@ -52,7 +52,7 @@ h2. Example
 
     helpers do
       def authorize!
-        error!('401 Unauthorized', 401) unless params[:secret] = '1234'
+        error!('401 Unauthorized', 401) unless params['secret'] == '1234'
       end
     end
 
