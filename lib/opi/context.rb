@@ -23,9 +23,12 @@ module Opi
 
     def run
       skip = route[:options][:skip] || []
-      skip = [skip] if skip and !skip.is_a?(Array)
+      skip = [skip] unless skip.is_a? Array
 
-      self.before.each do |before|
+      route_before = route[:options][:before] || []
+      route_before = [route_before] unless route_before.is_a? Array
+
+      (self.before + route_before).each do |before|
         next if skip.include? before
 
         self.send before # execute before filter
