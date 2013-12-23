@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.date = %q{2013-12-22}
   s.description = %q{The very opinionated API service library.}
   s.email = %q{moomerman@gmail.com}
-  s.files = ["README.md", "LICENSE", "lib/opi.rb"] + Dir.glob('lib/opi/*.rb')
+  s.files = ["README.textile", "LICENSE", "lib/opi.rb"] + Dir.glob('lib/opi/*.rb')
   s.has_rdoc = false
   s.homepage = %q{http://github.com/moomerman/opi}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
