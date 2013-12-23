@@ -32,3 +32,28 @@ and have no access to anything HTTP-related.  These are domain-specific actions
 that can be pulled out and used anywhere.
 
 *No Sessions or Cookies*.  None.
+
+h2. Example
+
+<pre><code>module Example
+  class API < Opi::API
+
+    before :authorize!
+
+    get '/ping', :skip => :authenticate! do
+      {:pong => Time.now.to_i}
+    end
+
+    get '/meaning' do
+      {:answer => 42}
+    end
+
+    helpers do
+      def authorize!
+        error!('401 Unauthorized', 401) unless params[:secret] = '1234'
+      end
+    end
+
+  end
+end
+</code></pre>
