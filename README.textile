@@ -35,6 +35,9 @@ But this has its advantages.  It is *fast* and *simple*.
 
 h2. Example
 
+This simple example doens't really go into the detail of Actions but it does
+demonstrate the routes, responses, before filters and helpers.
+
 <code>api.rb</code>
 
 <pre><code>module Example
@@ -66,4 +69,35 @@ end
 
 load './api.rb'
 run Example::API.new
+</code></pre>
+
+<code>output</code>
+
+<pre><code>$ curl -i http://0.0.0.0:9292/ping
+HTTP/1.1 200 OK
+Content-Type: application/json
+Transfer-Encoding: chunked
+
+{"pong":1387810814}
+
+$ curl -i http://0.0.0.0:9292/meaning
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Transfer-Encoding: chunked
+
+{"error":"401 Unauthorized"}
+
+$ curl -i http://0.0.0.0:9292/meaning?secret=1234
+HTTP/1.1 200 OK
+Content-Type: application/json
+Transfer-Encoding: chunked
+
+{"answer":42}
+
+$ curl -i http://0.0.0.0:9292/nonexistant
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Transfer-Encoding: chunked
+
+{"error":"404 Not Found"}
 </code></pre>
