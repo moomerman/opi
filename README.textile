@@ -1,9 +1,5 @@
 h1. Opi - The very opinionated API service library
 
-h2. Current Status
-
-Needs docs
-
 h2. Install the gem
 
 gem 'opi'
