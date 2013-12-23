@@ -8,6 +8,27 @@ h2. Install the gem
 
 gem 'opi'
 
-h2. Using the gem
+h2. About
 
-TODO
+Opi is a very opinionated API service library.  In fact, it is so opinionated it
+is very likely to offend.  But that is alright.
+
+Opi was born out of frustration with writing too much boilerplate code for api
+services.
+
+*JSON-only*.  The server CANNOT respond with anything else other than JSON.
+All error responses are JSON out of the box.  You CANNOT respond with HTML.
+The response content type is hardcoded to JSON.
+
+But this has its advantages.
+
+*No Controllers*.  Well.. there are route blocks which are the equivalent
+of the controller but you are strongly encouraged to only ever execute actions
+in these blocks (the server is looking out for those actions as responses).
+The only role of the 'controller' here is to map HTTP inputs to Action inputs.
+
+*Action-based*.  All logic is an action.  Actions validate their own inputs
+and have no access to anything HTTP-related.  These are domain-specific actions
+that can be pulled out and used anywhere.
+
+*No Sessions or Cookies*.  None.
