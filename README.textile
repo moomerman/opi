@@ -31,7 +31,7 @@ But this has its advantages.  It is *fast* and *simple*.
 
 h2. Example
 
-This simple example doens't really go into the detail of Actions but it does
+This simple example doesn't really go into the detail of Actions but it does
 demonstrate the routes, responses, before filters and helpers.
 
 <code>api.rb</code>
