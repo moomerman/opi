@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Taylor"]
-  s.date = %q{2013-12-22}
+  s.date = %q{2014-01-10}
   s.description = %q{The very opinionated API service library.}
   s.email = %q{moomerman@gmail.com}
   s.files = ["README.md", "LICENSE", "lib/opi.rb"] + Dir.glob('lib/opi/*.rb')
