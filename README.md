@@ -42,21 +42,25 @@ module Example
 
     before :authorize!
 
-    get '/ping', :skip => :authorize! do
-      {:pong => Time.now.to_i}
-    end
-
-    get '/meaning' do
-      {:answer => 42}
-    end
-
     get '/boom', :skip => :authorize! do
       raise 'boom'
     end
 
+    get '/ping', :skip => :authorize! do
+      {:pong => Time.now.to_i}
+    end
+
+    get '/users/:id' do
+      params
+    end
+
+    post '/meaning' do
+      {:answer => 42}
+    end
+
     helpers do
       def authorize!
-        error!('401 Unauthorized', 401) unless params['secret'] == '1234'
+        error!('401 Unauthorized', 401) unless params[:secret] == '1234'
       end
     end
 
@@ -96,6 +100,13 @@ Content-Type: application/json
 Transfer-Encoding: chunked
 
 {"answer":42}
+
+$ curl -i http://0.0.0.0:9292/users/1?secret=1234
+HTTP/1.1 200 OK
+Content-Type: application/json
+Transfer-Encoding: chunked
+
+{"secret":"1234","id":"1"}
 
 $ curl -i http://0.0.0.0:9292/nonexistant
 HTTP/1.1 404 Not Found
