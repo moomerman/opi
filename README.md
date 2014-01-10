@@ -1,10 +1,10 @@
-h1. Opi - The very opinionated API service library
+# Opi - The very opinionated API service library
 
-h2. Install the gem
+## Install the gem
 
 gem 'opi'
 
-h2. About
+## About
 
 Opi is a very opinionated rack-compliant API service library.  In fact, it is
 so opinionated it is very likely to offend.  But that is alright.
@@ -12,31 +12,32 @@ so opinionated it is very likely to offend.  But that is alright.
 Opi was born out of frustration with writing too much boilerplate code for api
 services.
 
-*JSON-only*.  The server CANNOT respond with anything else other than JSON.
+**JSON-only**.  The server CANNOT respond with anything else other than JSON.
 All error responses are JSON out of the box.  You CANNOT respond with HTML.
 The response content type is hardcoded to JSON.
 
-*No Controllers*.  Well.. there are route blocks which are the equivalent
+**No Controllers**.  Well.. there are route blocks which are the equivalent
 of the controller but you are strongly encouraged to only ever execute actions
 in these blocks (the server is looking out for those actions as responses).
 The only role of the 'controller' here is to map HTTP inputs to Action inputs.
 
-*Action-based*.  All logic is an action.  Actions validate their own inputs
+**Action-based**.  All logic is an action.  Actions validate their own inputs
 and have no access to anything HTTP-related.  These are domain-specific actions
 that can be pulled out and used anywhere.
 
-*No Sessions or Cookies*.  None.
+**No Sessions or Cookies**.  None.
 
 But this has its advantages.  It is *fast* and *simple*.
 
-h2. Example
+## Example
 
 This simple example doesn't really go into the detail of Actions but it does
 demonstrate the routes, responses, before filters and helpers.
 
 <code>api.rb</code>
 
-<pre><code>module Example
+```ruby
+module Example
   class API < Opi::API
 
     before :authorize!
@@ -49,6 +50,10 @@ demonstrate the routes, responses, before filters and helpers.
       {:answer => 42}
     end
 
+    get '/boom', :skip => :authorize! do
+      raise 'boom'
+    end
+
     helpers do
       def authorize!
         error!('401 Unauthorized', 401) unless params['secret'] == '1234'
@@ -57,19 +62,21 @@ demonstrate the routes, responses, before filters and helpers.
 
   end
 end
-</code></pre>
+```
 
 <code>config.ru</code>
 
-<pre><code>require 'opi'
+```ruby
+require 'opi'
 
 load './api.rb'
 run Example::API.new
-</code></pre>
+```
 
 <code>output</code>
 
-<pre><code>$ curl -i http://0.0.0.0:9292/ping
+```bash
+$ curl -i http://0.0.0.0:9292/ping
 HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
@@ -96,4 +103,11 @@ Content-Type: application/json
 Transfer-Encoding: chunked
 
 {"error":"404 Not Found"}
-</code></pre>
+
+$ curl -i http://0.0.0.0:9292/boom
+HTTP/1.1 500 Internal Server Error
+Content-Type: application/json
+Transfer-Encoding: chunked
+
+{"error":"500 Internal Server Error", "message":"boom"}
+```

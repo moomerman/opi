@@ -12,5 +12,4 @@ require_relative './opi/context'
 require_relative './opi/loader'
 
 module Opi
-  VERSION = '1.0'
 end
