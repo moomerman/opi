@@ -2,6 +2,9 @@ module Opi
   class API
 
     class << self
+
+      puts "* Opi Version: #{Opi::VERSION}".green
+
       def get(path, options={}, &block)
         route 'GET', path, options, block
       end
@@ -58,7 +61,8 @@ module Opi
         request = Request.new(env)
 
         route, params = self.class.router.route(request.method, request.path)
-        request.params.merge!(params) if params
+        request.params.merge!(params) if params and params.is_a? Hash
+        request.params.merge!('splat' => params.join(',')) if params and params.is_a? Array
 
         return [404, {'Content-Type' => 'application/json'}, ["{\"error\":\"404 Not Found\"}", "\n"]] unless route
 
