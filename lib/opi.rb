@@ -4,6 +4,7 @@ require 'json'
 require 'mutations'
 
 require_relative './opi/version'
+require_relative './opi/router'
 require_relative './opi/api'
 require_relative './opi/request'
 require_relative './opi/response'

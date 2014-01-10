@@ -20,7 +20,7 @@ module Opi
 
       def route(method, path, options={}, block)
         # TODO: remove&replace existing routes (on reload)
-        routes.unshift({:method => method, :path => path, :options => options, :block => block})
+        router.routes.unshift({:method => method, :path => path, :options => options, :block => block})
       end
 
       def before(method)
@@ -39,8 +39,8 @@ module Opi
         @after_filters ||= []
       end
 
-      def routes
-        @routes ||= []
+      def router
+        @router ||= Router.new
       end
 
       def helpers(&block)
@@ -57,7 +57,8 @@ module Opi
 
         request = Request.new(env)
 
-        route = self.class.routes.detect{|x| x[:method] == request.method and x[:path] == request.path}
+        route, params = self.class.router.route(request.method, request.path)
+        request.params.merge!(params) if params
 
         return [404, {'Content-Type' => 'application/json'}, ["{\"error\":\"404 Not Found\"}", "\n"]] unless route
 

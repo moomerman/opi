@@ -14,7 +14,7 @@ module Opi
     end
 
     def params
-      @request.params
+      {}.tap {|h| @request.params.each{|x| h[x.first.to_sym] = x.last}}
     end
 
     def error!(message, status)
@@ -43,7 +43,7 @@ module Opi
       # before filters must have succeeded
       action = instance_eval &route[:block]
 
-      if action.is_a? Opi::Action
+      if action.kind_of? Opi::Action or action.kind_of? Mutations::Outcome
         if action.success?
           response.status = 200
           response.body = [action.result.to_json, "\n"]
