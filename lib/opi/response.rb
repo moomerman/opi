@@ -4,7 +4,7 @@ module Opi
     def initialize
       @status, @body = 200, ["{}","\n"]
       @header = Rack::Utils::HeaderHash.new({
-        'Content-Type' => 'application/json'
+        'Content-Type' => 'application/json; charset=utf-8'
         # 'Server' => 'TBD/1.0'
       })
     end

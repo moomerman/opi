@@ -64,14 +64,14 @@ module Opi
         request.params.merge!(params) if params and params.is_a? Hash
         request.params.merge!('splat' => params.join(',')) if params and params.is_a? Array
 
-        return [404, {'Content-Type' => 'application/json'}, ["{\"error\":\"404 Not Found\"}", "\n"]] unless route
+        return [404, {'Content-Type' => 'application/json; charset=utf-8'}, ["{\"error\":\"404 Not Found\"}", "\n"]] unless route
 
         context = Context.new(env, route, request, self.class.before_filters, self.class.after_filters)
         response = context.run
 
         [response.status, response.header, response.body]
       rescue Exception => e
-        return [500, {'Content-Type' => 'application/json'}, ["{\"error\":\"500 Internal Server Error\", \"message\":\"#{e.message}\"}", "\n"]]
+        return [500, {'Content-Type' => 'application/json; charset=utf-8'}, ["{\"error\":\"500 Internal Server Error\", \"message\":\"#{e.message}\"}", "\n"]]
       end
     end
 
