@@ -21,10 +21,6 @@ of the controller but you are strongly encouraged to only ever execute actions
 in these blocks (the server is looking out for those actions as responses).
 The only role of the 'controller' here is to map HTTP inputs to Action inputs.
 
-**Action-based**.  All logic is an action.  Actions validate their own inputs
-and have no access to anything HTTP-related.  These are domain-specific actions
-that can be pulled out and used anywhere.
-
 **No Sessions or Cookies**.  None.
 
 But this has its advantages.  It is *fast* and *simple*.

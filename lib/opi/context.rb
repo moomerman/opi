@@ -43,7 +43,7 @@ module Opi
       # before filters must have succeeded
       action = instance_eval &route[:block]
 
-      if action.kind_of? Opi::Action or action.kind_of? Mutations::Outcome
+      if action.respond_to? :success?
         if action.success?
           response.status = 200
           response.body = [action.result.to_json, "\n"]
