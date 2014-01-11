@@ -3,11 +3,11 @@ module Opi
 
     attr_reader :env, :route, :request, :response, :before, :after, :error
 
-    def initialize(env, route, request, before, after)
+    def initialize(env, route, request, response, before, after)
       @env = env
       @route = route
       @request = request
-      @response = Response.new
+      @response = response
       @before = before
       @after = after
       @error = nil

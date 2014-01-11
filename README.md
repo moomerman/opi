@@ -12,9 +12,7 @@ so opinionated it is very likely to offend.  But that is alright.
 Opi was born out of frustration with writing too much boilerplate code for api
 services.
 
-**JSON-only**.  The server CANNOT respond with anything else other than JSON.
-All error responses are JSON out of the box.  You CANNOT respond with HTML.
-The response content type is hardcoded to JSON.
+**JSON-default**.  All responses default to JSON.  Error responses are json-aware.
 
 **No Controllers**.  Well.. there are route blocks which are the equivalent
 of the controller but you are strongly encouraged to only ever execute actions

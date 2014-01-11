@@ -9,5 +9,15 @@ module Opi
       })
     end
 
+    def not_found!
+      @status = 404
+      @body = ["{\"error\":\"404 Not Found\"}", "\n"]
+    end
+
+    def internal_server_error!(exception)
+      @status = 500
+      @body = ["{\"error\":\"500 Internal Server Error\", \"message\":\"#{exception.message}\"}", "\n"]
+    end
+
   end
 end

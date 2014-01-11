@@ -3,8 +3,6 @@ module Opi
 
     class << self
 
-      puts "* Opi Version: #{Opi::VERSION}".green
-
       def get(path, options={}, &block)
         route 'GET', path, options, block
       end
@@ -54,25 +52,39 @@ module Opi
 
     end
 
+    attr_reader :logger
+
+    def initialize(options={})
+      puts "* Opi Version: #{Opi::VERSION} initializing".green
+      @logger = options[:logger] || Logger.new(STDOUT)
+      @logger.level = options[:debug] ? Logger::DEBUG : Logger::WARN
+    end
+
     def call(env)
+      request = Request.new(env)
+      response = Response.new
+
       begin
         Loader.reload!
-
-        request = Request.new(env)
 
         route, params = self.class.router.route(request.method, request.path)
         request.params.merge!(params) if params and params.is_a? Hash
         request.params.merge!('splat' => params.join(',')) if params and params.is_a? Array
 
-        return [404, {'Content-Type' => 'application/json; charset=utf-8'}, ["{\"error\":\"404 Not Found\"}", "\n"]] unless route
+        if route
+          logger.debug "#{request.method} #{request.path} => route #{route.inspect}".green
+          context = Context.new(env, route, request, response, self.class.before_filters, self.class.after_filters)
+          response = context.run
+        else
+          logger.debug "#{request.method} #{request.path} => route not found".red
+          response.not_found!
+        end
 
-        context = Context.new(env, route, request, self.class.before_filters, self.class.after_filters)
-        response = context.run
-
-        [response.status, response.header, response.body]
       rescue Exception => e
-        return [500, {'Content-Type' => 'application/json; charset=utf-8'}, ["{\"error\":\"500 Internal Server Error\", \"message\":\"#{e.message}\"}", "\n"]]
+        response.internal_server_error!(e)
       end
+
+      [response.status, response.header, response.body]
     end
 
   end
