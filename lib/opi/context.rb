@@ -56,6 +56,11 @@ module Opi
         response.body = [action.to_json, "\n"]
       end
 
+      if self.error
+        response.status = error[:status]
+        response.body = [error[:message].to_json, "\n"]
+      end
+
       response
     end
 

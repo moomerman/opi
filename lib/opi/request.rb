@@ -10,7 +10,7 @@ module Opi
     end
 
     def path
-      @env["REQUEST_PATH"]
+      @env["REQUEST_PATH"] || @env["PATH_INFO"]
     end
 
     def uri

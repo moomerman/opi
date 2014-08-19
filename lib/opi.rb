@@ -1,6 +1,7 @@
 require 'rack'
 require 'colored'
 require 'json'
+require 'logger'
 
 require_relative './opi/version'
 require_relative './opi/router'

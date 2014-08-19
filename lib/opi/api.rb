@@ -61,6 +61,8 @@ module Opi
     end
 
     def call(env)
+      logger.debug env.inspect.cyan
+
       request = Request.new(env)
       response = Response.new
 
