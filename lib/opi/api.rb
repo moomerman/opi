@@ -87,6 +87,7 @@ module Opi
         end
 
       rescue Exception => e
+        logger.error "#{e.message.red}\n  #{e.backtrace[0..9].join("\n  ").yellow}"
         response.internal_server_error!(e)
       end
 
