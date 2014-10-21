@@ -57,7 +57,7 @@ module Opi
     def initialize(options={})
       puts "* Opi Version: #{Opi::VERSION} initializing".green
       @logger = options[:logger] || Logger.new(STDOUT)
-      @logger.level = options[:debug] ? Logger::DEBUG : Logger::WARN
+      @logger.level = options[:debug] ? Logger::DEBUG : Logger::INFO
     end
 
     def call(env)
@@ -73,6 +73,10 @@ module Opi
         request.params.merge!(params) if params and params.is_a? Hash
         request.params.merge!('splat' => params.join(',')) if params and params.is_a? Array
 
+        start_time = Time.now
+        logger.info " Started #{request.method} \"#{request.path}\" for #{request.ip} at #{start_time.to_s(:short)}"
+        logger.info " Parameters: #{request.params}"
+        
         if route
           logger.debug "#{request.method} #{request.path} => route #{route.inspect}".green
           context = Context.new(env, route, request, response, self.class.before_filters, self.class.after_filters)
@@ -86,6 +90,7 @@ module Opi
         response.internal_server_error!(e)
       end
 
+      logger.info " Completed #{response.status} in #{((Time.now - start_time)*1000).round(2)}ms"
       [response.status, response.header, response.body]
     end
 
