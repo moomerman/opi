@@ -10,7 +10,9 @@ module Opi
     end
 
     def path
-      @env["REQUEST_PATH"] || @env["PATH_INFO"]
+      @path = @env["PATH_INFO"]
+      @path = '/' if @path.nil? or @path.strip.empty?
+      @path
     end
 
     def uri
