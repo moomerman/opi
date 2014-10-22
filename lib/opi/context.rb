@@ -1,10 +1,11 @@
 module Opi
   class Context
 
-    attr_reader :env, :route, :request, :response, :before, :after, :error
+    attr_reader :env, :logger, :route, :request, :response, :before, :after, :error
 
-    def initialize(env, route, request, response, before, after)
+    def initialize(env, logger, route, request, response, before, after)
       @env = env
+      @logger = logger
       @route = route
       @request = request
       @response = response
@@ -50,6 +51,7 @@ module Opi
         else
           response.status = 400
           response.body = [action.errors.symbolic.to_json, "\n"]
+          logger.error "Reponse: #{action.errors.symbolic.to_json}".red
         end
       else
         response.status = 200

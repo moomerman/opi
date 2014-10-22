@@ -79,7 +79,7 @@ module Opi
         
         if route
           logger.debug "#{request.method} #{request.path} => route #{route.inspect}".green
-          context = Context.new(env, route, request, response, self.class.before_filters, self.class.after_filters)
+          context = Context.new(env, logger, route, request, response, self.class.before_filters, self.class.after_filters)
           response = context.run
         else
           logger.debug "#{request.method} #{request.path} => route not found".red

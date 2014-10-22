@@ -30,9 +30,7 @@ module Opi
       end
 
       def reload!
-        Dir["#{@prefix}lib/*.rb"].each { |x| funkyload x }
         Dir["#{@prefix}app/**/*.rb"].each { |x| funkyload x }
-        Dir["#{@prefix}*.rb"].each { |x| funkyload x unless x == 'Rakefile.rb' }
       end
 
     end
