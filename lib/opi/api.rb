@@ -11,7 +11,7 @@ module Opi
         route 'POST', path, options, block
       end
 
-      def put(path, &block)
+      def put(path, options={}, &block)
         route 'PUT', path, options, block
       end
 
