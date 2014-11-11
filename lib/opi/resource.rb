@@ -40,8 +40,8 @@ module Opi
       resources << Resource.new(
         "#{self.root}/#{path}",
         self.options.merge(options),
-        self.before_filters,
-        self.after_filters,
+        self.before_filters.dup,
+        self.after_filters.dup,
         block
       )
     end
@@ -49,6 +49,7 @@ module Opi
     private
       def route(method, path, options={}, block)
         full_path = "#{self.root}/#{path}".gsub(/\/\//, '/')
+        full_path.gsub!(/\/$/, '') unless full_path == '/'
         routes.unshift({
           :method => method,
           :path => full_path,

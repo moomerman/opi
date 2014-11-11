@@ -6,6 +6,7 @@ module Test
     before :authorize!
 
     get '/' do
+      {'get' => '/'}
     end
 
     get '/fish' do
@@ -46,9 +47,9 @@ module Test
 end
 
 api = Test::API.new(debug: true)
-api.call({
+puts api.call({
   "REQUEST_METHOD" => 'GET',
-  "PATH_INFO" => '/posts/1',
+  "PATH_INFO" => '/',
   "REMOTE_ADDR" => '127.0.0.1',
   "rack.input" => ""
-})
+}).join(', ')
