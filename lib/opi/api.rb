@@ -3,45 +3,12 @@ module Opi
 
     class << self
 
-      def get(path, options={}, &block)
-        route 'GET', path, options, block
+      def root
+        @root ||= Resource.new
       end
 
-      def post(path, options={}, &block)
-        route 'POST', path, options, block
-      end
-
-      def put(path, options={}, &block)
-        route 'PUT', path, options, block
-      end
-
-      def delete(path, options={}, &block)
-        route 'DELETE', path, options, block
-      end
-
-      def route(method, path, options={}, block)
-        # TODO: remove&replace existing routes (on reload)
-        router.routes.unshift({:method => method, :path => path, :options => options, :block => block})
-      end
-
-      def before(method)
-        before_filters << method
-      end
-
-      def after(method)
-        after_filters << method
-      end
-
-      def before_filters
-        @before_filters ||= []
-      end
-
-      def after_filters
-        @after_filters ||= []
-      end
-
-      def router
-        @router ||= Router.new
+      def method_missing(method, *args, &block)
+        root.respond_to?(method) ? root.send(method, *args, &block) : super
       end
 
       def helpers(&block)
@@ -58,6 +25,7 @@ module Opi
       puts "* Opi Version: #{Opi::VERSION} initializing".green
       @logger = options[:logger] || Logger.new(STDOUT)
       @logger.level = options[:debug] ? Logger::DEBUG : Logger::INFO
+      @router = Router.new(self.class.root)
     end
 
     def call(env)
@@ -69,17 +37,17 @@ module Opi
       begin
         Loader.reload!
 
-        route, params = self.class.router.route(request.method, request.path)
+        route, params = @router.route(request.method, request.path)
         request.params.merge!(params) if params and params.is_a? Hash
         request.params.merge!('splat' => params.join(',')) if params and params.is_a? Array
 
         start_time = Time.now
-        logger.info " Started #{request.method} \"#{request.path}\" for #{request.ip} at #{start_time.to_s(:short)}"
+        logger.info " Started #{request.method} \"#{request.path}\" for #{request.ip} at #{start_time.strftime('%d %b %H:%M')}"
         logger.info " Parameters: #{request.params}"
-        
+
         if route
           logger.debug "#{request.method} #{request.path} => route #{route.inspect}".green
-          context = Context.new(env, logger, route, request, response, self.class.before_filters, self.class.after_filters)
+          context = Context.new(env, logger, route, request, response)
           response = context.run
         else
           logger.debug "#{request.method} #{request.path} => route not found".red

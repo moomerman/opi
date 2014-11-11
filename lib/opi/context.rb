@@ -1,16 +1,14 @@
 module Opi
   class Context
 
-    attr_reader :env, :logger, :route, :request, :response, :before, :after, :error
+    attr_reader :env, :logger, :route, :request, :response, :error
 
-    def initialize(env, logger, route, request, response, before, after)
+    def initialize(env, logger, route, request, response)
       @env = env
       @logger = logger
       @route = route
       @request = request
       @response = response
-      @before = before
-      @after = after
       @error = nil
     end
 
@@ -29,7 +27,7 @@ module Opi
       route_before = route[:options][:before] || []
       route_before = [route_before] unless route_before.is_a? Array
 
-      (self.before + route_before).each do |before|
+      (route[:before] + route_before).each do |before|
         next if skip.include? before
 
         self.send before # execute before filter
