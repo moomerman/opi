@@ -27,6 +27,9 @@ module Test
 
       resource :events do
 
+        get nil, skip: :log do
+        end
+
         post do
         end
 
@@ -46,10 +49,12 @@ module Test
   end
 end
 
+require 'stringio'
+
 api = Test::API.new(debug: true)
 puts api.call({
   "REQUEST_METHOD" => 'GET',
   "PATH_INFO" => '/',
   "REMOTE_ADDR" => '127.0.0.1',
-  "rack.input" => ""
+  "rack.input" => StringIO.new
 }).join(', ')

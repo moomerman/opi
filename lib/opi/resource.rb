@@ -48,16 +48,14 @@ module Opi
 
     private
       def route(method, path, options={}, block)
-        full_path = "#{self.root}/#{path}".gsub(/\/\//, '/')
-        full_path.gsub!(/\/$/, '') unless full_path == '/'
-        routes.unshift({
-          :method => method,
-          :path => full_path,
-          :options => self.options.merge(options),
-          :before => self.before_filters,
-          :after => self.after_filters,
-          :block => block
-        })
+        routes.unshift Route.new(
+          method,
+          "#{self.root}/#{path}",
+          self.options.merge(options),
+          self.before_filters,
+          self.after_filters,
+          block
+        )
       end
 
   end

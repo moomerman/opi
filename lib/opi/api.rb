@@ -12,6 +12,7 @@ module Opi
       end
 
       def helpers(&block)
+        # TODO: allow argument to be a module
         mod = Module.new
         mod.class_eval &block
         Context.send :include, mod
@@ -46,7 +47,7 @@ module Opi
         logger.info " Parameters: #{request.params}"
 
         if route
-          logger.debug "#{request.method} #{request.path} => route #{route.inspect}".green
+          logger.debug "#{request.method} #{request.path} => #{route.inspect}".green
           context = Context.new(env, logger, route, request, response)
           response = context.run
         else

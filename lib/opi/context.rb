@@ -21,13 +21,13 @@ module Opi
     end
 
     def run
-      skip = route[:options][:skip] || []
+      skip = route.options[:skip] || []
       skip = [skip] unless skip.is_a? Array
 
-      route_before = route[:options][:before] || []
+      route_before = route.options[:before] || []
       route_before = [route_before] unless route_before.is_a? Array
 
-      (route[:before] + route_before).each do |before|
+      (route.before + route_before).each do |before|
         next if skip.include? before
 
         self.send before # execute before filter
@@ -40,7 +40,7 @@ module Opi
       end
 
       # before filters must have succeeded
-      action = instance_eval &route[:block]
+      action = instance_eval &route.block
 
       if action.respond_to? :success?
         if action.success?
