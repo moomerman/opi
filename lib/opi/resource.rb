@@ -39,7 +39,13 @@ module Opi
     def resource(path, options={}, &block)
       # TODO: clean this up, should be able to determine the child resource path
       root = "#{self.root}/#{path}"
-      root = "#{self.root}/:id/#{path}" unless self.root.empty?
+      # TODO: should be able to determine parent resource name, need to store name separately
+      unless self.root.empty?
+        # TODO: need to singularize ...
+        parent_resource = self.root.split('/').last.gsub(/s$/, '')
+        puts parent_resource
+        root = "#{self.root}/:#{parent_resource}_id/#{path}"
+      end
       resources << Resource.new(
         root,
         self.options.merge(options),
