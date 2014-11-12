@@ -37,8 +37,11 @@ module Opi
     end
 
     def resource(path, options={}, &block)
+      # TODO: clean this up, should be able to determine the child resource path
+      root = "#{self.root}/#{path}"
+      root = "#{self.root}/:id/#{path}" unless self.root.empty?
       resources << Resource.new(
-        "#{self.root}/#{path}",
+        root,
         self.options.merge(options),
         self.before_filters.dup,
         self.after_filters.dup,
@@ -48,7 +51,8 @@ module Opi
 
     private
       def route(method, path, options={}, block)
-        routes.unshift Route.new(
+        path = ":#{path}" if path.is_a? Symbol # TODO: maybe not?
+        routes.push Route.new(
           method,
           "#{self.root}/#{path}",
           self.options.merge(options),

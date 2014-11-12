@@ -16,20 +16,33 @@ module Test
 
       before :log
 
+      # POST /posts
       post do
       end
 
+      # GET /posts
       get do
       end
 
+      # GET /posts/:id
       get ':id' do
+      end
+
+      # GET /posts/latest
+      get 'latest' do
       end
 
       resource :events do
 
-        get nil, skip: :log do
+        # GET /posts/:id/events
+        get do
         end
 
+        # GET /posts/:id/events/:id
+        get :id do
+        end
+
+        # POST /posts/:id/events
         post do
         end
 

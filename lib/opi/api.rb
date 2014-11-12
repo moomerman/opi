@@ -27,6 +27,7 @@ module Opi
       @logger = options[:logger] || Logger.new(STDOUT)
       @logger.level = options[:debug] ? Logger::DEBUG : Logger::INFO
       @router = Router.new(self.class.root)
+      @router.routes.collect{|x| @logger.debug "Route: #{x.method} #{x.path}"}
     end
 
     def call(env)
