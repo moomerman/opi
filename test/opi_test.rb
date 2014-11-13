@@ -34,15 +34,15 @@ module Test
 
       resource :events do
 
-        # GET /posts/:id/events
+        # GET /posts/:post_id/events
         get do
         end
 
-        # GET /posts/:id/events/:id
+        # GET /posts/:post_id/events/:id
         get :id do
         end
 
-        # POST /posts/:id/events
+        # POST /posts/:post_id/events
         post do
         end
 
@@ -66,8 +66,8 @@ require 'stringio'
 
 api = Test::API.new(debug: true)
 puts api.call({
-  "REQUEST_METHOD" => 'GET',
-  "PATH_INFO" => '/',
+  "REQUEST_METHOD" => 'POST',
+  "PATH_INFO" => '/posts',
   "REMOTE_ADDR" => '127.0.0.1',
   "rack.input" => StringIO.new
 }).join(', ')
