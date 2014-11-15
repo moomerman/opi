@@ -16,12 +16,15 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/moomerman/opi}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{opi}
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{The very opinionated API service library.}
   s.license = 'MIT'
+  s.rubyforge_project = 'opi'
 
   s.add_runtime_dependency 'rack', '~> 1.5', '>= 1.5.2'
   s.add_runtime_dependency 'colored', '~> 1.2'
-  s.add_runtime_dependency 'json', '~> 1.8', '>= 1.8.1'
+  s.add_runtime_dependency 'multi_json'
+
+  s.add_development_dependency 'rack-test'
+  s.add_development_dependency 'rspec', '~> 3.0'
 end
