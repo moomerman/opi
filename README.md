@@ -1,5 +1,8 @@
 # Opi - The very opinionated API service library
 
+[![Build Status](https://travis-ci.org/moomerman/opi.svg?branch=master)](https://travis-ci.org/moomerman/opi)
+[![Code Climate](https://codeclimate.com/github/moomerman/opi/badges/gpa.svg)](https://codeclimate.com/github/moomerman/opi)
+
 ## Install the gem
 
 gem 'opi'
