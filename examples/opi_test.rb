@@ -12,12 +12,17 @@ module Test
     get '/fish' do
     end
 
+    get '/error', :before => :err do
+      {:ignore => 'me'}
+    end
+
     resource :posts do
 
       before :log
 
       # POST /posts
       post do
+        {post: 'ok'}
       end
 
       # GET /posts
@@ -58,6 +63,10 @@ module Test
       def log
         p "log!"
       end
+
+      def err
+        error!(404, 'Not Found')
+      end
     end
   end
 end
@@ -66,8 +75,8 @@ require 'stringio'
 
 api = Test::API.new(debug: true)
 puts api.call({
-  "REQUEST_METHOD" => 'POST',
-  "PATH_INFO" => '/posts',
+  "REQUEST_METHOD" => 'GET',
+  "PATH_INFO" => '/error',
   "REMOTE_ADDR" => '127.0.0.1',
   "rack.input" => StringIO.new
 }).join(', ')
