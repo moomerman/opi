@@ -2,12 +2,12 @@ rvm:
   - 2.1
   - 2.0
   - 1.9
-  - rbx
+  - rbx-2
   - jruby
 
 matrix:
   allow_failures:
-    - rvm: rbx
+    - rvm: rbx-2
     - rvm: jruby
 
 addons:
