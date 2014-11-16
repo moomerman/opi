@@ -8,4 +8,9 @@ rvm:
 matrix:
   allow_failures:
     - rvm: rbx
-    - rvm: jruby 
+    - rvm: jruby
+
+addons:
+  code_climate:
+    repo_token:
+      secure: Rl/y+wwpcx0NdqzvgnzmwXBMn1umbz81dQqtaLbthFqEF80a3SNJ0g3B5Z+FpRLaFNwaApcdcsiEK7G7H4APgxoKu7z/PdyHz+0pmzHhpxj9C8avPozy0sHCtBxE24HCYQqYeve29xYgBN6Mju+1y69VQKPr+yswE3/+chgAYdU=
