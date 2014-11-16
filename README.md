@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/moomerman/opi.svg?branch=master)](https://travis-ci.org/moomerman/opi)
 [![Code Climate](https://codeclimate.com/github/moomerman/opi/badges/gpa.svg)](https://codeclimate.com/github/moomerman/opi)
+[![Test Coverage](https://codeclimate.com/github/moomerman/opi/badges/coverage.svg)](https://codeclimate.com/github/moomerman/opi)
 
 ## Install the gem
 
